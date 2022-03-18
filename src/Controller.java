@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
-public class Controller implements Initializable{
+public class Controller implements Initializable {
 
     @FXML
     private AnchorPane anchorPane;
@@ -21,10 +21,14 @@ public class Controller implements Initializable{
     private GridPane gridPane;
 
     @FXML
-    private Text textOfChosenDate;
+    private Text chosenDateText;
+
+    @FXML
+    private Text currentMonthText;
 
     boolean monthIncrease, monthReduce = false;
     LocalDate currentDate;
+    ObservableList listOfTexts;
 
     LocalDate getCurrentDate(int year, int month) {
         StringBuilder stringDate;
@@ -34,7 +38,7 @@ public class Controller implements Initializable{
             stringDate = new StringBuilder(year + "-" + month + "-01");
         } else if (month >= 1 && month <= 9) {
             stringDate = new StringBuilder(year + "-0" + month + "-01");
-        } else if (month >= 10 && month <= 12){
+        } else if (month >= 10 && month <= 12) {
             stringDate = new StringBuilder(year + "-" + month + "-01");
         } else {
             year++;
@@ -47,9 +51,11 @@ public class Controller implements Initializable{
     }
 
     int currentDay;
+
+    // Выделить рамкой сегодняшний день в календаре
     void highlightToday() {
         int count1 = 1, count2 = 0;
-        for (Node element: anchorPane.getChildren()) {
+        for (Node element : anchorPane.getChildren()) {
             if (element instanceof Text) {
                 if (!((Text) element).getText().equals("")) {
 //                    System.out.println(Integer.parseInt(((Text) element).getText()));
@@ -60,7 +66,7 @@ public class Controller implements Initializable{
                 }
             }
         }
-        for (Node element: gridPane.getChildren()) {
+        for (Node element : gridPane.getChildren()) {
             if (count2 == count1) {
                 element.setStyle("-fx-border-width: 3; -fx-border-color: #000000");
                 break;
@@ -73,18 +79,24 @@ public class Controller implements Initializable{
 
     @FXML
     void showCalendar() {
-
         if (monthIncrease) {
             int year = currentDate.getYear();
+            // Увеличенный на еденицу номер мсяца
             int month = currentDate.getMonthValue() + 1;
+            // Получение новой даты с учетом изменения календарного месяца
             currentDate = getCurrentDate(year, month);
-        } else if(monthReduce) {
+        } else if (monthReduce) {
             int year = currentDate.getYear();
+            // Уменьшенный на еденицу номер месяца
             int month = currentDate.getMonthValue() - 1;
             currentDate = getCurrentDate(year, month);
         } else {
             currentDate = LocalDate.now();
         }
+
+        String monthTitle = getRusMonth(currentDate.getMonthValue());
+        currentMonthText.setText(monthTitle + " " + currentDate.getYear());
+
         int firstMonthDay = getDayOfWeek(currentDate);
 
         // Обнуление содержимого ячейки для изменения
@@ -93,8 +105,7 @@ public class Controller implements Initializable{
                 ((Text) node).setText("");
             }
         }
-
-        ObservableList listOfTexts = anchorPane.getChildren();
+        listOfTexts = anchorPane.getChildren();
 
         int j = 1;
         currentDay = currentDate.getDayOfMonth();
@@ -119,7 +130,7 @@ public class Controller implements Initializable{
         monthIncrease = false;
     }
 
-    // Получение даты в нужном формате
+    // Получение номера ячейки, с которой начинается первое число текущего месяца, для корректной расстановки дней месяца в ячейках
     int getDayOfWeek(LocalDate date) {
         String correctMonth;
 
@@ -139,6 +150,7 @@ public class Controller implements Initializable{
         }
     }
 
+    // Изменение календарного месяца при нажатии стрелки "вправо"
     @FXML
     void increaseMonth() {
         monthIncrease = true;
@@ -146,6 +158,7 @@ public class Controller implements Initializable{
         showCalendar();
     }
 
+    // Изменение календарного месяца при нажатии стрелки "влево"
     @FXML
     void reduceMonth() {
         monthReduce = true;
@@ -153,44 +166,45 @@ public class Controller implements Initializable{
         showCalendar();
     }
 
+    // Получение названия месяца на русском языке для currentMonthText
     String getRusMonth(int month) {
         String monthTitle = null;
         switch (month) {
             case (1):
-                monthTitle = "ЯНВАРЯ";
+                monthTitle = "ЯНВАРЬ";
                 break;
             case (2):
-                monthTitle = "ФЕВРАЛЯ";
+                monthTitle = "ФЕВРАЛЬ";
                 break;
             case (3):
-                monthTitle = "МАРТА";
+                monthTitle = "МАРТ";
                 break;
             case (4):
-                monthTitle = "АПРЕЛЯ";
+                monthTitle = "АПРЕЛЬ";
                 break;
             case (5):
-                monthTitle = "МАЯ";
+                monthTitle = "МАЙ";
                 break;
             case (6):
-                monthTitle = "ИЮНЯ";
+                monthTitle = "ИЮНЬ";
                 break;
             case (7):
-                monthTitle = "ИЮЛЯ";
+                monthTitle = "ИЮЛЬ";
                 break;
             case (8):
-                monthTitle = "АВГУСТА";
+                monthTitle = "АВГУСТ";
                 break;
             case (9):
-                monthTitle = "СЕНТЯБРЯ";
+                monthTitle = "СЕНТЯБРЬ";
                 break;
             case (10):
-                monthTitle = "ОКТЯБРЯ";
+                monthTitle = "ОКТЯБРЬ";
                 break;
             case (11):
-                monthTitle = "НОЯБРЯ";
+                monthTitle = "НОЯБРЬ";
                 break;
             case (12):
-                monthTitle = "ДЕКАБРЯ";
+                monthTitle = "ДЕКАБРЬ";
                 break;
         }
         return monthTitle;
@@ -218,36 +232,40 @@ public class Controller implements Initializable{
             }
         }
 
-        String monthTitle = getRusMonth(currentDate.getMonthValue());
-        return new StringBuilder(chosenDay + " " + monthTitle + " " + currentDate.getYear() + " г.");
+        String monthString;
+        if (currentDate.getMonthValue() <= 9) {
+            monthString = "0" + currentDate.getMonthValue();
+        } else {
+            monthString = Integer.toString(currentDate.getMonthValue());
+        }
+        return new StringBuilder(chosenDay + "." + monthString + "." + currentDate.getYear() + " г.");
     }
 
-    // "Навешивание" обработчиков событий на ячейки
+    // "Навешивание" обработчиков событий (кликов мыши) на ячейки для стилизации этих ячеек
     void setHandlers() {
-        for (Node element: gridPane.getChildren()) {
-            for (Node text : anchorPane.getChildren()) {
-                if (text instanceof Text) {
-                    if (!(((Text) text).getText().equals(""))) {
-                        element.setOnMouseClicked(e -> {
-                            resetStyles();
-                            element.setStyle("-fx-border-width: 3; -fx-border-color: #000000");
-                            changeText();
-                        });
-
-                    };
-                };
-            };
+        int count = 0;
+        for (Node element : gridPane.getChildren()) {
+            Object object = listOfTexts.get(count);
+            element.setOnMouseClicked(e -> {
+                if (object instanceof Text && !(((Text) object).getText().equals(""))) {
+                    resetStyles();
+                    element.setStyle("-fx-border-width: 3; -fx-border-color: #000000");
+                    changeText();
+                }
+            });
+            count++;
         }
     }
 
     // Изменения даты в текстовом представлении в верхней части календаря
     void changeText() {
-        textOfChosenDate.setText(getChosenDate().toString());
+        chosenDateText.setText(getChosenDate().toString());
     }
 
-    // Метод, вызываемый автоматически при запуске программы, для отображения календаря
+    // Метод, вызываемый автоматически при запуске программы
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Показать календарь
         showCalendar();
         setHandlers();
     }
