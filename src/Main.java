@@ -12,7 +12,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.getIcons().add(new Image("/icons/ico_64.png"));
         primaryStage.setTitle("Календарь");
-        primaryStage.setScene(new Scene(root, 860, 640));
+        primaryStage.setScene(new Scene(root, 860, 680));
         primaryStage.show();
         primaryStage.setResizable(false);
     }
