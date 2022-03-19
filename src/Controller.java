@@ -52,36 +52,11 @@ public class Controller implements Initializable {
 
     int currentDay;
 
-    // Выделить рамкой сегодняшний день в календаре
-    void highlightToday() {
-        int count1 = 1, count2 = 0;
-        for (Node element : anchorPane.getChildren()) {
-            if (element instanceof Text) {
-                if (!((Text) element).getText().equals("")) {
-//                    System.out.println(Integer.parseInt(((Text) element).getText()));
-//                    if (Integer.parseInt(((Text) element).getText()) == currentDay) {
-//                        break;
-//                    }
-                    count1++;
-                }
-            }
-        }
-        for (Node element : gridPane.getChildren()) {
-            if (count2 == count1) {
-                element.setStyle("-fx-border-width: 3; -fx-border-color: #000000");
-                break;
-            }
-            count2++;
-        }
-    }
-
-    boolean firstStartCalendar = true;
-
     @FXML
     void showCalendar() {
         if (monthIncrease) {
             int year = currentDate.getYear();
-            // Увеличенный на еденицу номер мсяца
+            // Увеличенный на еденицу номер месяца
             int month = currentDate.getMonthValue() + 1;
             // Получение новой даты с учетом изменения календарного месяца
             currentDate = getCurrentDate(year, month);
@@ -99,12 +74,12 @@ public class Controller implements Initializable {
 
         int firstMonthDay = getDayOfWeek(currentDate);
 
-        // Обнуление содержимого ячейки для изменения
-        for (Node node : anchorPane.getChildren()) {
-            if (node instanceof Text) {
-                ((Text) node).setText("");
-            }
-        }
+        resetDays(anchorPane);
+//        for (Node node : anchorPane.getChildren()) {
+//            if (node instanceof Text) {
+//                ((Text) node).setText("");
+//            }
+//        }
         listOfTexts = anchorPane.getChildren();
 
         int j = 1;
@@ -115,11 +90,6 @@ public class Controller implements Initializable {
             if (text instanceof Text) {
                 if (currentDay == j) {
                     currentDay = i;
-                    if (firstStartCalendar) {
-                        highlightToday();
-                        changeText();
-                    }
-                    firstStartCalendar = false;
                 }
                 ((Text) text).setText(Integer.toString(j));
                 j++;
@@ -128,6 +98,15 @@ public class Controller implements Initializable {
 
         monthReduce = false;
         monthIncrease = false;
+    }
+
+    // Обнуление содержимого ячейки для изменения
+    void resetDays(AnchorPane anchorPane) {
+        for (Node node : anchorPane.getChildren()) {
+            if (node instanceof Text) {
+                ((Text) node).setText("");
+            }
+        }
     }
 
     // Получение номера ячейки, с которой начинается первое число текущего месяца, для корректной расстановки дней месяца в ячейках
