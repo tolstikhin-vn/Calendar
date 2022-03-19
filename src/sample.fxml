@@ -289,7 +289,7 @@
             </GridPane>
          </children>
       </AnchorPane>
-      <Text fill="#6e6d6d" layoutX="156.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ВТ" wrappingWidth="109.60000000000002">
+      <Text fill="#6e6d6d" layoutX="157.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ВТ" wrappingWidth="109.60000000000002">
          <font>
             <Font name="Impact" size="19.0" />
          </font>
@@ -309,17 +309,17 @@
             <Font name="Impact" size="19.0" />
          </font>
       </Text>
-      <Text fill="RED" layoutX="594.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="СБ" wrappingWidth="109.60000000000002">
+      <Text fill="RED" layoutX="593.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="СБ" wrappingWidth="109.60000000000002">
          <font>
             <Font name="Impact" size="19.0" />
          </font>
       </Text>
-      <Text fill="RED" layoutX="704.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ВС" wrappingWidth="109.60000000000002">
+      <Text fill="RED" layoutX="702.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ВС" wrappingWidth="109.60000000000002">
          <font>
             <Font name="Impact" size="19.0" />
          </font>
       </Text>
-      <Text fill="#6e6d6d" layoutX="47.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ПН" wrappingWidth="38.936737060546875">
+      <Text fill="#6e6d6d" layoutX="46.0" layoutY="116.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ПН" wrappingWidth="38.936737060546875">
          <font>
             <Font name="Impact" size="18.0" />
          </font>
@@ -334,7 +334,7 @@
             <Image url="@icons/forward_arrow.png" />
          </image>
       </ImageView>
-      <Text fx:id="chosenDateText" fill="#ff5e5e" layoutX="263.0" layoutY="46.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="332.53680419921864">
+      <Text fx:id="chosenDateText" fill="#ff5e5e" layoutX="263.0" layoutY="46.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="332.53680419921864">
          <font>
             <Font name="Impact" size="39.0" />
          </font>
