@@ -10,7 +10,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.getIcons().add(new Image("/icons/ico_64.png"));
+        primaryStage.getIcons().add(new Image("icons/icon_128.png"));
         primaryStage.setTitle("Календарь");
         primaryStage.setScene(new Scene(root, 860, 680));
         primaryStage.show();
